@@ -1,16 +1,20 @@
 import nodeHtmlToImage from 'node-html-to-image';
-
+import { ImageDto, PageDto } from '../dto';
 export class CrawlerService {
   /**
    *
    * @param url
    */
-  public async fetchData(url: string) {
+  public async fetchData(url: string): Promise<PageDto> {
     try {
       // Fetch data from URL and store the response into a const
       const response = await fetch(url);
       // Convert the response into text
-      return await response.text();
+      const html = await response.text();
+      const page = new PageDto();
+      page.content_raw = html;
+      page.convertRawToDocument();
+      return page;
     } catch (error) {
       console.log(error);
     }
@@ -18,20 +22,21 @@ export class CrawlerService {
 
   /**
    *
-   * @param str
+   * @param document
+   * @param selector
    */
-  public parserHtml(str: string) {
-    const parser = new DOMParser();
-    return parser.parseFromString(str, 'text/html');
+  public async getElementHTML(document, selector): Promise<string> {
+    const e = document.querySelector(selector);
+    return e.outerHTML;
   }
 
   /**
    *
    * @param body
    */
-  public async makeImage(body: any) {
+  public async makeImage(body: any, image: ImageDto) {
     await nodeHtmlToImage({
-      output: './storage/image.png',
+      output: image.outpath(),
       html: body,
     });
   }

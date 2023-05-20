@@ -10,6 +10,7 @@ import { createReadStream } from 'fs';
 import { CrawlerService } from '../providers';
 import { Request, Response } from 'express';
 import { join } from 'path';
+import { ImageDto } from '../dto';
 
 @Controller('crawler')
 export class CrawlerController {
@@ -28,11 +29,13 @@ export class CrawlerController {
     @Query('url') url: string,
     @Res({ passthrough: true }) res: Response,
   ): Promise<StreamableFile> {
-    const body = await this.CrawlerService.fetchData(url);
-    await this.CrawlerService.makeImage(body);
+    const page = await this.CrawlerService.fetchData(url);
+    const e = await this.CrawlerService.getElementHTML(page.document, 'table');
     const fileName = 'image.png';
-    const filePath = './storage/image.png';
-    const file = createReadStream(join(process.cwd(), filePath));
+    const image = new ImageDto();
+    image.name = fileName;
+    await this.CrawlerService.makeImage(e, image);
+    const file = createReadStream(join(process.cwd(), image.outpath()));
     res.set({
       'Content-Type': 'image/png',
       'Content-Disposition': 'attachment; filename="' + fileName + '"',

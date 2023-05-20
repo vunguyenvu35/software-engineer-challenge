@@ -38,6 +38,8 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cross-var": "^1.1.0",
+    "html-to-json-parser": "^1.1.0",
+    "jsdom": "^22.0.0",
     "md5": "^2.3.0",
     "moment": "^2.29.4",
     "mysql2": "^3.2.0",
