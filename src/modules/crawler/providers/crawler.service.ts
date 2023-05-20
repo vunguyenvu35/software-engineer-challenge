@@ -42,7 +42,10 @@ export class CrawlerService {
   public async makeImage(body: any, image: ImageDto) {
     await nodeHtmlToImage({
       output: image.outpath(),
-      html: body,
+      type: 'png',
+      transparent: true,
+      html:
+        '<html>' + ' <body bgcolor="#ffffff"> ' + body + '</body>' + '</html>',
     });
   }
 }
