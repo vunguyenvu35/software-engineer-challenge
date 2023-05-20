@@ -21,19 +21,29 @@ export class CrawlerController {
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<any> {
-    res.json({ message: 'Hello!' });
+    res.json({ message: 'Hello Crawler API!' });
   }
 
   @Get('scan')
-  public async getFile(
+  public async getImageTable(
     @Query('url') url: string,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<StreamableFile> {
+  ) {
     const page = await this.CrawlerService.fetchData(url);
+    // find table
     const e = await this.CrawlerService.getElementHTML(page.document, 'table');
+
+    if (e === null) {
+      return res.json({
+        code: 403,
+        message: 'The website has not table element!',
+        data: {},
+      });
+    }
     const fileName = 'image.png';
     const image = new ImageDto();
     image.name = fileName;
+    // make image and response to client.
     await this.CrawlerService.makeImage(e, image);
     const file = createReadStream(join(process.cwd(), image.outpath()));
     res.set({

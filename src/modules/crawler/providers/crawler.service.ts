@@ -27,6 +27,9 @@ export class CrawlerService {
    */
   public async getElementHTML(document: any, selector: any): Promise<string> {
     const e = document.querySelector(selector);
+    if (e == null) {
+      return null;
+    }
     return e.outerHTML;
   }
 
