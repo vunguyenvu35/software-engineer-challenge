@@ -1,8 +1,8 @@
 import { DocumentBuilder } from '@nestjs/swagger';
 
 const swaggerConfig = new DocumentBuilder()
-  .setTitle('Nestjs Email Marketing')
-  .setDescription('The nestjs email marketing description')
+  .setTitle('Nestjs software engineer challenge')
+  .setDescription('The nestjs software engineer challenge description')
   .setVersion('1.0')
   .addTag('Service')
   .addBearerAuth()

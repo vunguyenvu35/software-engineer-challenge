@@ -1,4 +1,11 @@
 export class ImageDto {
+  get ContentType(): string {
+    return this._ContentType;
+  }
+
+  set ContentType(value: string) {
+    this._ContentType = value;
+  }
   get path(): string {
     return this._path;
   }
@@ -17,6 +24,7 @@ export class ImageDto {
   private _path: string;
   private _name: string;
   private _output_root = './storage/';
+  private _ContentType = 'image/png';
 
   public outpath() {
     return this._output_root + this._name;

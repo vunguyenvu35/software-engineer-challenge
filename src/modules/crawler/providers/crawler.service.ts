@@ -25,14 +25,16 @@ export class CrawlerService {
    * @param document
    * @param selector
    */
-  public async getElementHTML(document, selector): Promise<string> {
+  public async getElementHTML(document: any, selector: any): Promise<string> {
     const e = document.querySelector(selector);
     return e.outerHTML;
   }
 
   /**
-   *
+   * @Description
+   *    Make image from data.
    * @param body
+   * @param image
    */
   public async makeImage(body: any, image: ImageDto) {
     await nodeHtmlToImage({

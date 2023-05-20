@@ -37,8 +37,8 @@ export class CrawlerController {
     await this.CrawlerService.makeImage(e, image);
     const file = createReadStream(join(process.cwd(), image.outpath()));
     res.set({
-      'Content-Type': 'image/png',
-      'Content-Disposition': 'attachment; filename="' + fileName + '"',
+      'Content-Type': image.ContentType,
+      'Content-Disposition': 'attachment; filename="' + image.name + '"',
     });
     return new StreamableFile(file);
   }
